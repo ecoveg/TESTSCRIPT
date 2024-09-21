@@ -1,0 +1,91 @@
+-- Script Lua para Bear Alpha no Roblox
+
+-- Cria uma GUI simples para ativar/desativar as funcionalidades
+local screenGui = Instance.new("ScreenGui")
+local flyButton = Instance.new("TextButton")
+local brightnessButton = Instance.new("TextButton")
+local toggleButton = Instance.new("TextButton")
+
+-- Define as propriedades da GUI
+screenGui.Name = "BearAlphaGUI"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+flyButton.Parent = screenGui
+flyButton.Size = UDim2.new(0, 200, 0, 50)
+flyButton.Position = UDim2.new(0.5, -100, 0.1, 0)
+flyButton.Text = "Ativar Voo"
+flyButton.TextColor3 = Color3.new(1, 1, 1)
+flyButton.BackgroundColor3 = Color3.new(0, 0, 0)
+flyButton.BackgroundTransparency = 0.5
+flyButton.Font = Enum.Font.SourceSans
+flyButton.TextScaled = true
+
+brightnessButton.Parent = screenGui
+brightnessButton.Size = UDim2.new(0, 200, 0, 50)
+brightnessButton.Position = UDim2.new(0.5, -100, 0.2, 0)
+brightnessButton.Text = "Aumentar Brilho"
+brightnessButton.TextColor3 = Color3.new(1, 1, 1)
+brightnessButton.BackgroundColor3 = Color3.new(0, 0, 0)
+brightnessButton.BackgroundTransparency = 0.5
+brightnessButton.Font = Enum.Font.SourceSans
+brightnessButton.TextScaled = true
+
+toggleButton.Parent = screenGui
+toggleButton.Size = UDim2.new(0, 200, 0, 50)
+toggleButton.Position = UDim2.new(0.5, -100, 0.3, 0)
+toggleButton.Text = "Desativar Script"
+toggleButton.TextColor3 = Color3.new(1, 1, 1)
+toggleButton.BackgroundColor3 = Color3.new(0, 0, 0)
+toggleButton.BackgroundTransparency = 0.5
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextScaled = true
+
+-- Função para ativar/desativar o voo
+local flying = false
+flyButton.MouseButton1Click:Connect(function()
+    flying = not flying
+    if flying then
+        flyButton.Text = "Desativar Voo"
+        -- Código para fazer o jogador voar
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+        humanoid.PlatformStand = true
+        character.HumanoidRootPart.Velocity = Vector3.new(0, 50, 0)
+    else
+        flyButton.Text = "Ativar Voo"
+        -- Código para desativar o voo
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+        humanoid.PlatformStand = false
+    end
+end)
+
+-- Função para aumentar o brilho
+local brightnessIncreased = false
+brightnessButton.MouseButton1Click:Connect(function()
+    brightnessIncreased = not brightnessIncreased
+    if brightnessIncreased then
+        brightnessButton.Text = "Reduzir Brilho"
+        game.Lighting.Brightness = 2
+        game.Lighting.FogEnd = 100000
+    else
+        brightnessButton.Text = "Aumentar Brilho"
+        game.Lighting.Brightness = 1
+        game.Lighting.FogEnd = 1000
+    end
+end)
+
+-- Função para ativar/desativar o script
+local scriptActive = true
+toggleButton.MouseButton1Click:Connect(function()
+    scriptActive = not scriptActive
+    if scriptActive then
+        toggleButton.Text = "Desativar Script"
+        screenGui.Enabled = true
+    else
+        toggleButton.Text = "Ativar Script"
+        screenGui.Enabled = false
+    end
+end)
